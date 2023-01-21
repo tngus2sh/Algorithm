@@ -1,49 +1,49 @@
-## [오류]
-1. for문에서 T와 t부분에서 *unexpected token* 오류가 떴고, T는 *Unknown class: 'T'* 오류가 떴다.
+# [오류]
+## 1. for문에서 T와 t부분에서 *unexpected token* 오류가 떴고, T는 *Unknown class: 'T'* 오류가 떴다.
 ```java
 for(int t = 0; t < T; t++)
 ```
 - 오류 원인 : 코드에 main 메소드가 없었다.
 - 오류 해결 : main 추가
 
-2. 런타임 오류(StringIndexOutOfBounds	: java.lang.StringIndexOutOfBoundsException)
-   - 오류 해결 
-     1. 문자열 공백 체크
-     ```java
-     // 문자열이 없을 때
-     if(s.isEmpty()) {
-         continue;
-     } else {
-     ```
-     - 결론 : 해결 안됨
-     - 해결 안된 이유 : 런타임 오류라고 하고 오류의 원인이 뭔지 제대로 파악을 안함 -> 내 멋대로 공백 문자열 때문이라고 생각하고 그에 해당하는 코드만 추가함
+## 2. 런타임 오류(StringIndexOutOfBounds	: java.lang.StringIndexOutOfBoundsException)
+- 오류 해결 
+  1. 문자열 공백 체크
+  ```java
+  // 문자열이 없을 때
+  if(s.isEmpty()) {
+      continue;
+  } else {
+  ```
+  - 결론 : 해결 안됨
+  - 해결 안된 이유 : 런타임 오류라고 하고 오류의 원인이 뭔지 제대로 파악을 안함 -> 내 멋대로 공백 문자열 때문이라고 생각하고 그에 해당하는 코드만 추가함
      
-     2. for문 제한 값 수정
-     - 수정 전
-     ```java
-      for (int i = 0; i < 3; i++) {
-           for (int ii = 0; ii < loop; ii++) {
-               char c = s.charAt(i);
-               newS.append(c);     
-      }
-     ```
-     - 수정 후
-     ```java
-      for (int i = 0; i < s.length(); i++) {
-           for (int ii = 0; ii < loop; ii++) {
-               char c = s.charAt(i);
-               newS.append(c);
-           }
-      }
-     ```
-     - 결론 : 해결 됨
+  2. for문 제한 값 수정
+  - 수정 전
+  ```java
+   for (int i = 0; i < 3; i++) {
+        for (int ii = 0; ii < loop; ii++) {
+            char c = s.charAt(i);
+            newS.append(c);     
+   }
+  ```
+  - 수정 후
+  ```java
+   for (int i = 0; i < s.length(); i++) {
+        for (int ii = 0; ii < loop; ii++) {
+            char c = s.charAt(i);
+            newS.append(c);
+        }
+   }
+  ```
+  - 결론 : 해결 됨
 - 틀린 이유 : 문제 테스트 케이스로 제시된 ABC만 보았다. 그래서 문자열에서 문자 하나씩 떼오는 반복문을 3으로 제한을 두고 했기 때문에 그 이후에 /HTP와 같이 3을 벗어나는 문자열의 경우에는 위와 같은 오류가 난 것이다.
 
-## [새로 알게된 것]
+# [새로 알게된 것]
 1. 문자열 붙이기 (이 방법으로 나는 String 문자열에 '+' 로 이어 붙이는 방법만 알고 있었다.)
 2. 공백 체크
 3. 공백 제거
- ### 1. StringBuffer (문자열 붙이기에서 사용한 방법)
+## 1. StringBuffer (문자열 붙이기에서 사용한 방법)
 - 쓰는 이유 : String 변수의 불변성
   - 한번 선언된 String 변수는 내용이 절대로 변하지 않는다. 내부적으로는 새로운 String 객체를 생성해 텍스트를 붙이도록 하고 있는 것!
   - ***String 임시 객체로 생성을 방지하고 메모리를 절약하기 위해 StringBuffer와 append()를 사용하는 것***
@@ -67,7 +67,7 @@ for(int i = 0; i < 3; i++) {
   - **delete(시작 번호, 끝 번호)** : 문자열 삭제
   - **deleteCharAt(지우고 싶은 번호)** : 문자 삭제
 
-### 2. 공백체크 (isEmpty, length(), inBlank())
+## 2. 공백체크 (isEmpty, length(), inBlank())
 ### 2-1. length() - Java 5이하
 - 사용방법
   - 공백 제거 한 경우
@@ -99,7 +99,7 @@ for(int i = 0; i < 3; i++) {
 
 => 하지만, 내가 쓰고 있는 현재 버전이 Java 8 이기 때문에 isBlank()는 사용하지 않고 isEmpty()사용
 
-### 3. 공백 제거
+## 3. 공백 제거
 ### 3-1. trim()
 - java.lang.String 클래스의 trim() 메소드는
 - *앞뒤 공백을 제거한 문자열의 복사본을 리턴*

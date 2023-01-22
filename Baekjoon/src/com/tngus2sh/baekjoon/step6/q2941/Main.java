@@ -50,6 +50,5 @@ public class Main {
         s = s.replaceAll(" ", "");
         word += s.length();
         System.out.println(word);
-
     }
 }

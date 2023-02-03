@@ -26,3 +26,4 @@ public class q2587 {
         System.out.println(mean[2]);
     }
 }
+

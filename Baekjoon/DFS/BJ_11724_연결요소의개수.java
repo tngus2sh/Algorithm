@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
 
 /**
  *
- * 실버2 / 40분
+ * 연결요소의 개수 / 실버2 / 40분
  * https://www.acmicpc.net/problem/11724
  *
  */

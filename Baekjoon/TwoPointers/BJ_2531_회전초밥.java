@@ -1,4 +1,4 @@
-package Baekjoon.TwoPointers;
+package TwoPointers;
 
 import java.io.BufferedReader;
 import java.io.IOException;

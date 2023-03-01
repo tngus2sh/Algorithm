@@ -1,4 +1,4 @@
-package baekjoon;
+package DP;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,8 +6,9 @@ import java.io.InputStreamReader;
 
 /**
  * 1로 만들기 / 실버 3 / 40분
+ * https://www.acmicpc.net/problem/1463
  */
-public class q1463 {
+public class BJ_1463_1로만들기 {
     //DP
     static Integer[] dp;
     public static void main(String[] args) throws IOException {

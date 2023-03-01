@@ -36,7 +36,7 @@ public class BJ_2661_좋은수열 {
 			System.exit(0);
 		} else {
 			for (int i = 1; i <= 3; i++) {
-				if(twoPointer(result + i)) {
+				if(isGoodSequence(result + i)) {
 					makeInput(result + i);
 				}
 			}
@@ -44,7 +44,7 @@ public class BJ_2661_좋은수열 {
 	}
 
 	/**포인터로 좋은수열인지 판별하는 메소드*/
-	static boolean twoPointer(String str) {
+	static boolean isGoodSequence(String str) {
 		int length = str.length()/2;
 
 		for (int i = 1; i <= length; i++) {

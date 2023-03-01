@@ -49,13 +49,10 @@ public class D4_1238_Contact {
                     visited.put(to, false);
                 }
             }
-
-//            System.out.println(adjacent.toString());
+            
+            System.out.print("#" + t + " ");
             bfs(start);
-
-            sb.append("#").append(t).append(" ").append(maxLast).append("\n");
         }
-        System.out.println(sb);
     }
 
     static void bfs(int point) {
@@ -74,18 +71,21 @@ public class D4_1238_Contact {
             for (int t = 0; t < queueSize; t++) {
                 int poll = queue.poll();
 
-                for (int i = 0; i < adjacent.get(poll).size(); i++) {
-                    int temp = adjacent.get(poll).get(i);
-                    if(!visited.get(temp)) {
-                        visited.put(temp, true);
-                        queue.offer(temp);
-                        max = Math.max(max, temp);
-                    }
+                if(adjacent.containsKey(poll)) {
+	                for (int i = 0; i < adjacent.get(poll).size(); i++) {
+	                    int temp = adjacent.get(poll).get(i);
+	                    if(!visited.get(temp)) {
+	                        visited.put(temp, true);
+	                        queue.offer(temp);
+	                        max = Math.max(max, temp);
+	                    }
+	                }
                 }
             }
             list.add(max);
         }
 
         // 최대 레벨의 최댓값 출력
+        System.out.println(list.get(list.size()-2));
     }
 }

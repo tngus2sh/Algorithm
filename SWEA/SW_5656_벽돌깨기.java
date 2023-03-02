@@ -86,6 +86,7 @@ public class SW_5656_벽돌깨기 {
 				point = queue.poll();
 				depth = bricks[point.x][point.y];
 				
+				
 				for (int j = 0; j < depth-1; j++) {
 					for (int d = 0; d < 4; d++) {
 						int dx = point.x + directions[d][0];

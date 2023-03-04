@@ -2,6 +2,8 @@ import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.StringTokenizer;
 
 public class SW_5656_벽돌깨기 {
@@ -23,28 +25,32 @@ public class SW_5656_벽돌깨기 {
 			int N = Integer.parseInt(st.nextToken());
 			W = Integer.parseInt(st.nextToken());
 			H = Integer.parseInt(st.nextToken());
-			
+
+			// 벽돌을 열마다 구분
+			ArrayDeque<Integer>[] bricks = new ArrayDeque[W];
+
 			blocks = new int[H][W];
-			bricks = new int[H][W];
-			
+
 			// 꼭대기 위치
 			top = new int[W];
-			
+
 			for (int h = 0; h < H; h++) {
 				st = new StringTokenizer(br.readLine());
 				for (int w = 0; w < W; w++) {
-					blocks[h][w] = Integer.parseInt(st.nextToken());
-					
-					if(blocks[h][w] != 0) {
+//					blocks[h][w] = Integer.parseInt(st.nextToken());
+					int val = Integer.parseInt(st.nextToken());
+					if(h == 0) bricks[w] = new ArrayDeque<>();
+					bricks[w].offer(val);
+
+					if(val != 0) {
 						// 꼭대기 좌표 넣기
 						top[w] = h;
 					}
 				}
 			}
-			
 			combi = new int[N];
 			pickLine(N, 0);
-			
+
 			for (int n = 0; n < N; n++) {
 				bomb();
 			}
@@ -55,11 +61,6 @@ public class SW_5656_벽돌깨기 {
 	
 	static void pickLine(int r, int cnt) {
 		if(r == 0) {
-			for (int i = 0; i < H; i++) {
-				bricks[i] = blocks[i].clone();
-			}
-			visited = new boolean[H][W];
-			bomb();
 			return;
 		}
 		for(int i = 0; i < W; i++) {

@@ -45,7 +45,6 @@ public class BJ_13023_ABCDE {
     }
 
     static void dfs(int cnt, int num) {
-//        System.out.println("cnt : " + cnt + " , num : " + num);
         if(cnt >= 4){
             System.out.println(1);
             System.exit(0);

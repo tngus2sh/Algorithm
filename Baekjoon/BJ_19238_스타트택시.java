@@ -1,199 +1,151 @@
-//import java.io.BufferedReader;
-//import java.io.IOException;
-//import java.io.InputStreamReader;
-//import java.util.LinkedList;
-//import java.util.PriorityQueue;
-//import java.util.Queue;
-//import java.util.StringTokenizer;
-//
-///**
-// * 스타트택시
-// */
-//public class BJ_19238_스타트택시 {
-//
-//	static class Client implements Comparable<Client>{
-//		int[] clientPos;
-//		int[] goalPos;
-//		int index;
-//
-//		public Client(int[] clientPos, int[] goalPos, int index) {
-//			this.clientPos = clientPos;
-//			this.goalPos = goalPos;
-//			this.index = index;
-//		}
-//		@Override
-//		public int compareTo(Client o) {
-//			if(this.clientPos[0] - o.clientPos[0] == 0) return this.clientPos[1] - o.clientPos[1];
-//			return this.clientPos[0] - o.clientPos[0];
-//		}
-//	}
-//
-//	static int[] driverPos;
-//	static final int[][] directions = {{1,0}, {-1,0}, {0,1}, {0,-1}};
-//	static int N;
-//	static int[][] map;
-//	static boolean[][] visitedMap;
-//
-//	public static void main(String[] args) throws IOException {
-//		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//		StringTokenizer st = new StringTokenizer(br.readLine());
-//
-//		// 세로 : N, 가로 : M, 초기 연료의 양 : fuel
-//		N = Integer.parseInt(st.nextToken());
-//		int M = Integer.parseInt(st.nextToken());
-//		int fuel = Integer.parseInt(st.nextToken());
-//
-//		// 지도
-//		map = new int[N][N];
-//
-//		// 방문처리 초기화
-//		visitedMap = new boolean[N][N];
-//
-//		for (int n = 0; n < N; n++) {
-//			st = new StringTokenizer(br.readLine());
-//			for (int m = 0; m < N; m++) {
-//				map[n][m] = Integer.parseInt(st.nextToken());
-//			}
-//		}
-//
-//		// 운전을 시작하는 행, 열 번호
-//		st = new StringTokenizer(br.readLine());
-//		int driverRow = Integer.parseInt(st.nextToken());
-//		int driverCol = Integer.parseInt(st.nextToken());
-//		driverPos = new int[] {driverRow-1, driverCol-1};
-//
-//		// 손님 행,  열 번호
-////		PriorityQueue<Client> clients = new PriorityQueue<>();
-//		Client[] clients = new Client[M];
-//		for (int m = 0; m < M; m++) {
-//			st = new StringTokenizer(br.readLine());
-//
-////			clients[m] = new Client();
-//
-//			int clientRow = Integer.parseInt(st.nextToken());
-//			int clientCol = Integer.parseInt(st.nextToken());
-//			int goalRow = Integer.parseInt(st.nextToken());
-//			int goalCol = Integer.parseInt(st.nextToken());
-//
-////			clients.add(new Client(new int[] {clientRow, clientCol}, new int[] {goalRow, goalCol}, m));
-//
-//			clients[m].clientPos = new int[] {clientRow-1, clientCol-1};
-//			clients[m].goalPos = new int[] {goalRow-1, goalCol-1};
-//			clients[m].index = m;
-//
-//		}
-//
-//		boolean[] visited = new boolean[M];
-//		int clientsCnt = M;
-//		//결과
-//		int result = 0;
-//		while(true) {
-//			int minDis = Integer.MAX_VALUE;
-//			int minIdx = clientsCnt;
-//			PriorityQueue<Integer> min = new PriorityQueue<>();
-//
-//			for (int i = 0; i < M; i++) {
-//				// 방문하지 않은 승객에 한해서만 진행
-//				if(!visited[i]) {
-//					visitedMap = new boolean[N][N];
-//
-//					int dis = bfs(driverPos, clients[i].clientPos);
-//					// -- debug
-////					System.out.println("i : " + i + ", dis : " + dis);
-//					// 만약 길을 못 찾는다면 그대로 -1 출력하고 종료
-//					if(dis == -1) { System.out.println(-1); return; }
-//
-//					// 최소 거리 갱신
-//					if(dis == minDis) {
-//						min.add(i);
-//					} else if(dis < minDis) {
-//						min = new LinkedList<>();
-//						min.add(i);
-//						minDis = dis;
-//						minIdx = i;
-//					}
-//				}
-//			}
-//			visitedMap = new boolean[N][N];
-//
-////			System.out.println("minDis : " + minDis);
-//
-//			minIdx = min.get(0);
-//
-//
-////			System.out.println("fuel : " + fuel);
-//			// 연료 줄이기
-//			fuel -= minDis;
-//			// 승객 방문 처리
-//			visited[minIdx] = true;
-//			// 승객 수 줄이기
-//			clientsCnt--;
-//
-//			// -- debug
-////			System.out.println("minIdx : " + minIdx + " , fuel : " + fuel);
-//			// 목적지까지 이동
-//			int f = bfs(clients[minIdx].clientPos, clients[minIdx].goalPos);
-//
-////			System.out.println("f : " + f);
-//
-//			// 만약 연료가 중간에 바닥났는데 주변이 벽으로 다 둘러싸여있으면 이동 못하니까 -1을 리턴하게 됨
-//			if(f == -1) { System.out.println(-1); return; }
-//
-//			// 연료가 바닥나면 그대로 반복문 벗어나고 종료
-//			fuel -= f;
-//
-//			// -- debug
-////			System.out.println("ClientsCnt : " + clientsCnt + ", fuel : " + fuel);
-//
-//			if(fuel < 0) { result = -1; break; }
-//
-//			// 연료 충전
-//			fuel += f*2;
-////			System.out.println("charge fuel : " + fuel);
-////			System.out.println("=================================================");
-//
-//			// 승객을 다 돌면 그대로 종료
-//			if(clientsCnt == 0) { result = fuel; break; }
-//
-//			// 운전자 좌표 조정
-//			driverPos = clients[minIdx].goalPos;
-//
-//		}
-//		System.out.println(result);
-//	}
-//
-//	static int bfs(int[] startPos, int[] goalPos) {
-//		Queue<int[]> queue = new LinkedList<>();
-//		queue.offer(new int[] {startPos[0], startPos[1] , 0});
-//
-//		int loopCnt = 0;
-//
-//		while(!queue.isEmpty()) {
-//			int[] pos = queue.poll();
-//
-//			if(pos[0] == goalPos[0] && pos[1] == goalPos[1]) return pos[2];
-//
-//			if(loopCnt == N*N) return -1;
-//
-//			int distance = pos[2];
-//
-//			for (int i = 0; i < 4; i++) {
-//				int dx = pos[0] + directions[i][0];
-//				int dy = pos[1] + directions[i][1];
-//
-//				if(dx < 0 || dx >= N || dy < 0 || dy >= N) continue;
-//
-//				// 지나갈수 있는 길일 때
-//				if(map[dx][dy] == 0) {
-//					if(!visitedMap[dx][dy]) {
-//						visitedMap[dx][dy] = true;
-//						queue.add(new int[] {dx, dy, distance + 1});
-//					}
-//				}
-//			}
-//			loopCnt++;
-//		}
-//		return -1;
-//	}
-//
-//}
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+/**
+ * 스타트택시 / 골드2 / 2시간
+ * https://www.acmicpc.net/problem/19238
+ */
+public class BJ_19238_스타트택시 {
+    static class Client implements Comparable<Client> {
+        int[] startPos;
+        int[] goalPos;
+        public Client(int[] startPos, int[] goalPos){
+            this.startPos = startPos;
+            this.goalPos = goalPos;
+        }
+        @Override
+        public int compareTo(Client o) {
+            if(this.startPos[0] == o.startPos[0]) return this.startPos[1] - o.startPos[1];
+            return this.startPos[0] - o.startPos[0];
+        }
+    }
+    static int N, M, minDis;
+    static int[][] map;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        // 세로 : N, 가로 : M, 초기 연료의 양 : originalFuel
+        N = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
+        int originalFuel = Integer.parseInt(st.nextToken());
+
+        // 지도
+        map = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < N; j++) {
+                map[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+        int[] driverPos = new int[2];
+        // 운전을 시작하는 칸의 행 번호, 열 번호
+        st = new StringTokenizer(br.readLine());
+        driverPos[0] = Integer.parseInt(st.nextToken()) - 1;
+        driverPos[1] = Integer.parseInt(st.nextToken()) - 1;
+
+        ArrayList<Client> clients = new ArrayList<>();
+        // M개의 승객 출발지의 행, 열 번호 & 목적지의 행, 열 번호
+        for (int m = 0; m < M; m++) {
+            st = new StringTokenizer(br.readLine());
+            int startX = Integer.parseInt(st.nextToken());
+            int startY = Integer.parseInt(st.nextToken());
+            int goalX = Integer.parseInt(st.nextToken());
+            int goalY = Integer.parseInt(st.nextToken());
+            clients.add(new Client(new int[] {startX-1, startY-1}, new int[] {goalX-1 , goalY-1}));
+        }
+        // 승객 정렬
+        Collections.sort(clients);
+        // 최소 거리
+        minDis = Integer.MAX_VALUE;
+        // 최소 거리 인덱스
+        int minDisIdx = -1;
+        // 승객 수
+        int clientNum = clients.size();
+        // 결과
+        int result = -1;
+
+        while(clientNum > 0) {
+            // 각 승객마다 돌아가면서 거리를 구한다
+            for (int i = 0; i < clientNum; i++) {
+                int dis = bfs(driverPos, clients.get(i).startPos);
+                // 만약 이동을 못하는 손님이라면 그대로 반복문 종료
+                if(dis == -1){
+                    System.out.println(-1);
+                    return;
+                }
+                if(minDis > dis) {
+                    minDis = dis;
+                    minDisIdx = i;
+                }
+            }
+            // 최소 거리를 뽑음
+            // 연료의 양에 최소 거리를 빼고 연료의 양이 0보다 큰지 확인
+            originalFuel = originalFuel - minDis;
+            if(originalFuel < 0) break;
+            // 0보다 크다면 운전자의 위치를 승객의 위치로 이동
+            driverPos = clients.get(minDisIdx).startPos;
+            // 목적지로 이동
+            int fuel = bfs(driverPos, clients.get(minDisIdx).goalPos);
+            // 목적지로 이동한 만큼의 연료를 빼고 연료의 양이 0보다 큰지 확인
+            originalFuel = originalFuel - fuel;
+            if(originalFuel < 0) break;
+            // 0보다 크다면 목적지로 이동한 만큼의 연료의 2배를 충전
+            originalFuel += (fuel * 2);
+            // 운전자 위치를 목적지 위치로 바꿈
+            driverPos = clients.get(minDisIdx).goalPos;
+            // 승객 수를 하나 줄임 -> 리스트에서 제거
+            clientNum--;
+            clients.remove(minDisIdx);
+            // 최소 거리, 최소 인덱스 초기화
+            minDis = Integer.MAX_VALUE;
+            minDisIdx = -1;
+            if(clientNum == 0) {
+                result = originalFuel;
+            }
+        }
+        // 결과 출력
+        System.out.println(result);
+    }
+
+    static int bfs(int[] startPos, int[] goalPos) {
+        Queue<int[]> queue = new LinkedList<>();
+        // 0번째 인덱스 : 출발 x좌표, 1번째 인덱스 : 출발 y좌표, 2번째 인덱스 : 거리
+        int[] pos = {startPos[0], startPos[1], 0};
+        boolean[][] visited = new boolean[N][N];
+        queue.add(pos);
+        // 출발 좌표 방문처리
+        visited[startPos[0]][startPos[1]] = true;
+
+        // 사방탐색
+        int[][] directions = {{1,0}, {-1,0}, {0,1}, {0,-1}};
+
+        while(!queue.isEmpty()){
+            int[] poll = queue.poll();
+            int x = poll[0];
+            int y = poll[1];
+            int dis = poll[2];
+
+            // 좌표가 목적지와 같다면 그대로 거리를 반환하고 끝냄
+            if (x == goalPos[0] && y == goalPos[1]) return dis;
+            // 같지 않다면 사방탐색 시작
+            for (int i = 0; i < 4; i++) {
+                int dx = x + directions[i][0];
+                int dy = y + directions[i][1];
+                // 만약 지도의 범위를 벗어난다면 다음 사방탐색으로 이동
+                if (dx < 0 || dx >= N || dy < 0 || dy >= N) continue;
+                // 벽이 있다면 못 지나감
+                if (map[dx][dy] == 1) continue;
+                // 만약 방문했던 곳이라면 다음 사방탐색으로 이동
+                if (visited[dx][dy]) continue;
+                // 방문 체크
+                visited[dx][dy] = true;
+                // 큐에 해당 좌표랑 거리를 + 1해서 넣어줌
+                queue.add(new int[] {dx, dy, dis+1});
+            }
+        }
+        return -1;
+    }
+}

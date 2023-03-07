@@ -1,108 +1,151 @@
-import java.awt.Point;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class SW_5656_벽돌깨기 {
-	static int W, H;
-	static int[][] blocks, bricks;
-	static int[] top, combi;
-	static boolean[][] visited;
-	
-	public static void main(String[] args) throws Exception {
+	static class Point{
+		int x;
+		int y;
+		int size;
+
+		public Point(int x, int y, int size) {
+			super();
+			this.x = x;
+			this.y = y;
+			this.size = size;
+		}
+
+	}
+	static int N,W,H,min;
+	static int[] dx = {-1,1,0,0};
+	static int[] dy = {0,0,-1,1};
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		StringTokenizer st;
-		
+
 		int T = Integer.parseInt(br.readLine());
-		
-		for (int t = 1; t <= T; t++) {
-			st = new StringTokenizer(br.readLine());
-			
-			int N = Integer.parseInt(st.nextToken());
+		for(int t=1; t<=T; t++) {
+			sb.append("#").append(t).append(" ");
+
+			st = new StringTokenizer(br.readLine(), " ");
+			N = Integer.parseInt(st.nextToken());
 			W = Integer.parseInt(st.nextToken());
 			H = Integer.parseInt(st.nextToken());
 
-			// 벽돌을 열마다 구분
-			ArrayDeque<Integer>[] bricks = new ArrayDeque[W];
+			int[][] map = new int[H][W];
 
-			blocks = new int[H][W];
-
-			// 꼭대기 위치
-			top = new int[W];
-
-			for (int h = 0; h < H; h++) {
-				st = new StringTokenizer(br.readLine());
-				for (int w = 0; w < W; w++) {
-//					blocks[h][w] = Integer.parseInt(st.nextToken());
-					int val = Integer.parseInt(st.nextToken());
-					if(h == 0) bricks[w] = new ArrayDeque<>();
-					bricks[w].offer(val);
-
-					if(val != 0) {
-						// 꼭대기 좌표 넣기
-						top[w] = h;
-					}
+			for(int i=0; i<H; i++) {
+				st = new StringTokenizer(br.readLine(), " ");
+				for(int j=0; j<W; j++) {
+					map[i][j] = Integer.parseInt(st.nextToken());
 				}
 			}
-			combi = new int[N];
-			pickLine(N, 0);
 
-			for (int n = 0; n < N; n++) {
-				bomb();
-			}
-			
+			min = Integer.MAX_VALUE;
+			dropBeads(0, map);
+			sb.append(min).append("\n");
+
 		}
-		
+		System.out.print(sb);
 	}
-	
-	static void pickLine(int r, int cnt) {
-		if(r == 0) {
+
+	// 중복순열로 구슬 떨어뜨리기
+	// cnt : 구슬을 떨어뜨린 횟수
+	private static void dropBeads(int cnt, int[][] map) {
+
+		if(cnt == N) {
+			int result = getRemain(map);
+			min = Math.min(min, result);
 			return;
 		}
-		for(int i = 0; i < W; i++) {
-			combi[cnt] = i;	
-			pickLine(r-1, cnt+1);
+
+		int[][] newMap = new int[H][W];
+		// 매열마다 구슬을 떨어뜨리는 시도
+		for (int y = 0; y < W; y++) {
+			// 해당 열에 구슬을 떨어뜨려 맞는 벽돌 찾기
+			int x =0;
+			while(x<H && map[x][y]==0) ++x;
+			if(x==H) { 	// 맞는 벽돌 없음(모두 빈칸)
+				dropBeads(cnt+1, map);
+			}else { 	// 벽돌을 찾음.
+				//기존 cnt-1 구슬까지의 상태로 초기화
+				copy(map, newMap);
+				//벽돌 깨뜨리기
+				breakBricks(newMap,x,y);
+				//깨져서 생긴 빈칸을 채운다(벽돌을 내린다.)
+				downBricks(newMap);
+				//다음 구슬을 떨어뜨리러 간다.
+				dropBeads(cnt+1, newMap);
+			}
+		}
+
+	}
+
+	private static int getRemain(int[][] map) {
+		int count =0;
+		for (int i = 0; i < H; i++) {
+			for (int j = 0; j < W; j++) {
+				if(map[i][j] > 0) count++;
+			}
+		}
+		return count;
+	}
+
+	private static void downBricks(int[][] newMap) {
+		for (int y = 0; y < W; y++) {
+			Queue<Integer> bricks = new LinkedList<>();
+			int x = H-1;
+			while(x>=0) {
+				if(newMap[x][y] > 0) {
+					bricks.offer(newMap[x][y]);
+					newMap[x][y] = 0;
+				}
+				x--;
+			}
+
+			x = H-1;
+			while(!bricks.isEmpty()){
+				newMap[x][y] = bricks.poll();
+				x--;
+			}
 		}
 	}
-	
-	static void bomb() {
-		// combi에 부셔야 하는 열이 있음 -> 하나씩 반복문으로 가져와서
-		// 부셔지는 벽돌을 큐로 체크하고 실제로 없애기
 
-		ArrayDeque<Point> queue = new ArrayDeque<>();
-		Point point;
-		int depth;
-		int[][] directions = {{1,0}, {-1,0}, {0,1}, {0,-1}};
-		
-		for (int i = 0; i < combi.length; i++) {
-			queue.add(new Point(top[combi[i]], combi[i]));
-			
-			visited[top[combi[i]]][combi[i]] = true;
-			
-			while(!queue.isEmpty()) {
-				point = queue.poll();
-				depth = bricks[point.x][point.y];
-				
-				
-				for (int j = 0; j < depth-1; j++) {
-					for (int d = 0; d < 4; d++) {
-						int dx = point.x + directions[d][0];
-						int dy = point.y + directions[d][1];
-						
-						if(dx < 0 || dx >= H || dy < 0 || dy >= W) continue;
-						
-						if(!visited[dx][dy]) {
-							visited[dx][dy] = true;
-							queue.add(new Point(dx, dy));
+	private static void breakBricks(int[][] newMap, int r, int c) {
+		Queue<Point> queue = new LinkedList<>();
+		if(newMap[r][c]>1) {
+			queue.offer(new Point(r, c, newMap[r][c]));
+		}
+		newMap[r][c] = 0; //제거처리(방문처리)
+
+		while(!queue.isEmpty()) {
+			Point p = queue.poll();
+
+			for(int d=0; d<4; d++) {
+				int nx = p.x;
+				int ny = p.y;
+				for(int k=1; k<p.size; k++) {
+					nx += dx[d];
+					ny += dy[d];
+					if(nx>=0 && nx<H && ny>=0 && ny<W && newMap[nx][ny] != 0) {
+						if(newMap[nx][ny] > 1) {
+							queue.offer(new Point(nx, ny, newMap[nx][ny]));
 						}
+						newMap[nx][ny] = 0;
 					}
 				}
 			}
 		}
 	}
 
+	private static void copy(int[][] map, int[][] newMap) {
+		for(int i=0; i<H; i++) {
+			for(int j=0; j<W; j++) {
+				newMap[i][j] = map[i][j];
+			}
+		}
+	}
 }

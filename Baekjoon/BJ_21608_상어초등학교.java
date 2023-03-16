@@ -112,10 +112,6 @@ public class BJ_21608_상어초등학교 {
 		// 다 돌고 제일 최선의 자리에 앉는다
 		else map[pos[0]][pos[1]] = student;
 
-
-		// -- debug
-//		System.out.println("==============");
-//		printMap();
 	}
 
 	/** 만족도 구하기 */
@@ -135,31 +131,15 @@ public class BJ_21608_상어초등학교 {
 					// 범위 벗어나면 다음 사방탐색
 					if(dx < 0 || dx >= N || dy < 0 || dy >= N) continue;
 
-					// -- debug
-//					System.out.print("student : " + student);
 					// 좋아하는 학생이라면 카운트 업
 					for (int l = 0; l < 4; l++) {
-						// -- debug
-//						System.out.print(students.get(student)[l] + " ");
 						if(map[dx][dy]
 								== students.get(student)[l]) likeStudent++;
 					}
-					// -- debug
-//					System.out.println();
 				}
 				// 좋아하는 학생 수 만큼 만족도 업!!
 				good += Math.pow(10, likeStudent-1);
 			}
-		}
-	}
-
-	// -- debug
-	static void printMap() {
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < N; j++) {
-				System.out.print(map[i][j] + " ");
-			}
-			System.out.println();
 		}
 	}
 }

@@ -1,3 +1,5 @@
+package DP;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -31,7 +33,7 @@ public class BJ_2293_동전1 {
 		
 		for (int i = 0; i < n; i++) {
 			for (int j = 1; j <= k ; j++) {
-				if(j >= coins[i]) { 
+				if(j >= coins[i]) {
 					dp[j] = dp[j] + dp[j-coins[i]];
 				}
 			}

@@ -73,9 +73,6 @@ public class BJ_1956_운동 {
         int[] startArr = {start, 0};
         queue.add(startArr);
 
-        // 거쳐갔는지 표시
-        boolean[] visited = new boolean[V+1];
-
         while(!queue.isEmpty()) {
             int[] poll = queue.poll();
             int pos = poll[0];
@@ -86,13 +83,9 @@ public class BJ_1956_운동 {
             // 시작위치로 되돌아 왔을 때 (시작위치이고 거리가 0보다 크면 돌아왔다는 뜻이니까)
             if(pos == start && dis > 0) return dis;
 
-            // 이미 거쳐갔던 곳이면은 패쓰~~
-//            if(visited[pos]) continue;
-
             // 출발하는 방향이 아닌 경우 == hashmap에서 key값이 아닌 경우 그 다음으로 넘어가기
             if(!connection.containsKey(pos)) continue;
 
-            visited[pos] = true;
             for (int i = 0; i < connection.get(pos).size(); i++) {
                 int nextTown = connection.get(pos).get(i).town;
                 int nextDis = connection.get(pos).get(i).road;

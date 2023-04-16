@@ -1,3 +1,5 @@
+package graph.Dijkstra;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.PriorityQueue;

@@ -25,6 +25,7 @@ public class BJ_1504_특정한최단경로 {
         }
     }
     static ArrayList<Node>[] graph;
+    // 최소 거리 최댓값
     static final int INF = 200000001;
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -46,14 +47,17 @@ public class BJ_1504_특정한최단경로 {
             graph[b].add(new Node(a, c));
         }
 
+        // 반드시 지나가야하는 정점
         st = new StringTokenizer(br.readLine());
         int vertex1 = Integer.parseInt(st.nextToken());
         int vertex2 = Integer.parseInt(st.nextToken());
 
+        // 1 -> vertex1 -> vertex2 -> N
         int res1 = Dijkstra(N, 1, vertex1);
         res1 += Dijkstra(N, vertex1, vertex2);
         res1 += Dijkstra(N, vertex2, N);
 
+        // 1 -> vertex2 -> vertex1 -> N
         int res2 = Dijkstra(N, 1, vertex2);
         res2 += Dijkstra(N, vertex2, vertex1);
         res2 += Dijkstra(N, vertex1, N);

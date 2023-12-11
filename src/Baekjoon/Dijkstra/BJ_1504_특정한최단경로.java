@@ -25,7 +25,7 @@ public class BJ_1504_특정한최단경로 {
         }
     }
     static ArrayList<Node>[] graph;
-    static final int INF = Integer.MAX_VALUE;
+    static final int INF = 200000001;
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -51,23 +51,16 @@ public class BJ_1504_특정한최단경로 {
         int vertex2 = Integer.parseInt(st.nextToken());
 
         int res1 = Dijkstra(N, 1, vertex1);
-        int res2 = Dijkstra(N, vertex1, vertex2);
-        int res3 = Dijkstra(N, vertex2, N);
+        res1 += Dijkstra(N, vertex1, vertex2);
+        res1 += Dijkstra(N, vertex2, N);
 
-        int res4 = Dijkstra(N, 1, vertex2);
-        int res5 = Dijkstra(N, vertex2, vertex1);
-        int res6 = Dijkstra(N, vertex1, N);
+        int res2 = Dijkstra(N, 1, vertex2);
+        res2 += Dijkstra(N, vertex2, vertex1);
+        res2 += Dijkstra(N, vertex1, N);
 
-        if ((res1 == INF || res2 == INF || res3 == INF)
-                && (res4 == INF || res5 == INF || res6 == INF )) {
-            System.out.println(-1);
-        } else if (res1 == INF || res2 == INF || res3 == INF) {
-            System.out.println(res4 + res5 + res6);
-        } else if (res4 == INF || res5 == INF || res6 == INF) {
-            System.out.println(res1 + res2 + res3);
-        } else {
-            System.out.println(Math.min(res1+res2+res3, res4+res5+res6));
-        }
+        int ans = (res1 >= INF || res2 >= INF) ? -1 : Math.min(res1, res2);
+
+        System.out.println(ans);
     }
 
     public static int Dijkstra(int N, int start, int end) {

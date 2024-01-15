@@ -21,15 +21,6 @@ public class BJ_13305_주유소 {
         public int compareTo(Liter o) {
             return this.volume - o.volume;
         }
-
-        @Override
-        public String toString() {
-            final StringBuffer sb = new StringBuffer("Liter{");
-            sb.append("index=").append(index);
-            sb.append(", volume=").append(volume);
-            sb.append('}');
-            return sb.toString();
-        }
     }
     public static void main(String[] args) throws Exception {
 

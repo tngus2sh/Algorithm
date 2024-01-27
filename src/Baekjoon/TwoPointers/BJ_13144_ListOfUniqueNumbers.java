@@ -5,7 +5,7 @@ import java.util.*;
 
 /**
  * 문제 이름 / 티어 / 걸린 시간 / 푼 날짜
- * ListOfUniqueNumbers / 골드4 /  / 24.01.26
+ * ListOfUniqueNumbers / 골드4 / 1시간 / 24.01.26
  */
 
 public class BJ_13144_ListOfUniqueNumbers {
@@ -21,20 +21,18 @@ public class BJ_13144_ListOfUniqueNumbers {
             input[i] = Integer.parseInt(st.nextToken());
         }
 
-        long result =0;
-        HashSet<Integer> set = new HashSet<>();
-        for (int i = 0; i < input.length; i++) {
-            set.add(input[i]);
-            int bIdx = i+1;
-
-            while (bIdx < input.length && !set.contains(input[bIdx])) {
-                set.add(input[bIdx]);
-                bIdx++;
+        long result = 0;
+        int[] cnt = new int[100001];
+        int L = 0, R = 0;
+        while (L < N) {
+            while (R < N && cnt[input[R]] == 0) {
+                cnt[input[R]]++;
+                R++;
             }
+            result += (R - L);
 
-            result += bIdx - i;
-
-            set.clear();
+            cnt[input[L]]--;
+            L++;
         }
 
         System.out.println(result);

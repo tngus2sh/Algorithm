@@ -5,17 +5,17 @@ import java.util.*;
 
 /**
  * 문제 이름 / 티어 / 걸린 시간 / 푼 날짜
- * 고층건물 / 골드4 /  / 24.01.29
+ * 고층건물 / 골드4 / 1시간 / 24.02.07
  */
 
 public class BJ_1027_고층건물 {
+
     public static void main(String[] args) throws Exception {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         int N = Integer.parseInt(br.readLine());
 
-        ArrayList<long[]> index = new ArrayList<>();
         long[] buildings = new long[N];
 
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -23,38 +23,32 @@ public class BJ_1027_고층건물 {
             buildings[i] = Integer.parseInt(st.nextToken());
         }
 
-        int i = 0;
-        int L = 0;
-        int R = 0;
-        long result = 0;
-        while (i < buildings.length) {
+        int answer = 0;
+        for (int i =0; i < N; i++) {
+            int cnt = 0;
+            double tmp = 0;
 
-            int k = i-1;
-            for (; k >= 0; k--) {
-                if (buildings[i] <= buildings[k]) {
-                    break;
-                }
-            }
-            L = i - k;
+            for (int j = i - 1; j >= 0; j--) {
+                double slope = (double) (buildings[i] - buildings[j])/(i-j);
 
-            int nextIdx = buildings.length;
-            for (int j = i + 1; j < buildings.length; j++) {
-                if (buildings[i] <= buildings[j]) {
-                    nextIdx = j;
-                    break;
+                if (j == i - 1 || tmp > slope) {
+                    cnt++;
+                    tmp = slope;
                 }
             }
 
-            R = nextIdx - i;
+            for (int j = i + 1; j < N; j++) {
+                double slope = (double) (buildings[i] - buildings[j]) / (i - j);
 
-            result = Math.max(result, L + R);
-            i = nextIdx;
+                if ( j == i + 1 || tmp < slope) {
+                    cnt++;
+                    tmp = slope;
+                }
+            }
 
-            System.out.println("L : " + L + ", R : " + R);
-            L = 0;
-            R = 0;
+            answer = Math.max(answer, cnt);
         }
 
-        System.out.println(result);
+        System.out.println(answer);
     }
 }

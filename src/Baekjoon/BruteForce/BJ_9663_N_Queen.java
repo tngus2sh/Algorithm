@@ -1,4 +1,4 @@
-package Baekjoon;
+package Baekjoon.BruteForce;
 
 import java.io.*;
 

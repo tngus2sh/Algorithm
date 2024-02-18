@@ -37,8 +37,6 @@ public class BJ_1715_카드정렬하기 {
         long total = 0;
         while(!queue.isEmpty()) {
             long now = queue.poll();
-
-//            System.out.println("now : " + Arrays.toString(now));
             long sum = 0;
 
             sum += now;

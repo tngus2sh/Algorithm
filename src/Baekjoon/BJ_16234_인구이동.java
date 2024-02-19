@@ -82,10 +82,5 @@ public class BJ_16234_인구이동 {
                 }
             }
         }
-
-
-        for (int i =0; i < map.length; i++) {
-            for (int j =0 )
-        }
     }
 }

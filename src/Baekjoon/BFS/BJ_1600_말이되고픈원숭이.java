@@ -28,15 +28,6 @@ public class BJ_1600_말이되고픈원숭이 {
             this.cnt = cnt;
             this.dist = dist;
         }
-        @Override
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("[x : ").append(x).append(", ");
-            sb.append("y : ").append(y).append(", ");
-            sb.append("cnt : ").append(cnt).append(", ");
-            sb.append("dist : ").append(dist).append("]");
-            return sb.toString();
-        }
     }
 
 

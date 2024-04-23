@@ -1,11 +1,10 @@
 package Baekjoon.DP;
 
 import java.io.*;
-import java.util.*;
 
 /**
  * 문제 이름 / 티어 / 걸린 시간 / 푼 날짜
- * 쉬운계단수 / 실버1 /  / 24.04.23
+ * 쉬운계단수 / 실버1 / 39분 / 24.04.23
  */
 
 public class BJ_10844_쉬운계단수 {

@@ -1,4 +1,4 @@
-package Baekjoon.Dijkstra;
+package Baekjoon.ShortestPath;
 
 import java.io.*;
 import java.util.*;
